@@ -642,6 +642,11 @@ class _LDAPUser(_LDAPConnectionMixIn):
         else:
             user_dn = None
 
+        if self.settings.BIND_AS_AUTHENTICATING_USER:
+            # reset self._user_attrs because the authenticated user may
+            # receive more attributes than the anonymous
+            self._user_attrs = None
+
         return user_dn
 
     def _check_requirements(self):
